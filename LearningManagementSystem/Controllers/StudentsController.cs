@@ -54,10 +54,12 @@ namespace LearningManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Email,Role,CreatedDate,ModifiedDate,Id")] Student student)
+        public async Task<IActionResult> Create([Bind("Name,Email")] Student student)
         {
             if (ModelState.IsValid)
             {
+                student.Role = UserRole.Student;
+                student.CreatedDate = DateTime.Now;
                 _context.Add(student);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -86,7 +88,7 @@ namespace LearningManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Email,Role,CreatedDate,ModifiedDate,Id")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("Name,Email,Id")] Student student)
         {
             if (id != student.Id)
             {
@@ -97,6 +99,9 @@ namespace LearningManagementSystem.Controllers
             {
                 try
                 {
+                   
+                    
+                    student.ModifiedDate= DateTime.Now;
                     _context.Update(student);
                     await _context.SaveChangesAsync();
                 }

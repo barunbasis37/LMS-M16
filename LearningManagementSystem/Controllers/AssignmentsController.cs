@@ -10,23 +10,23 @@ using LearningManagementSystem.Models;
 
 namespace LearningManagementSystem.Controllers
 {
-    public class CoursesController : Controller
+    public class AssignmentsController : Controller
     {
         private readonly ApplicatonDBContext _context;
 
-        public CoursesController(ApplicatonDBContext context)
+        public AssignmentsController(ApplicatonDBContext context)
         {
             _context = context;
         }
 
-        // GET: Courses
+        // GET: Assignments
         public async Task<IActionResult> Index()
         {
-            var applicatonDBContext = _context.Courses.Include(c => c.Instructor);
+            var applicatonDBContext = _context.Assignments.Include(a => a.Course);
             return View(await applicatonDBContext.ToListAsync());
         }
 
-        // GET: Courses/Details/5
+        // GET: Assignments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,43 +34,42 @@ namespace LearningManagementSystem.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Courses
-                .Include(c => c.Instructor)
+            var assignment = await _context.Assignments
+                .Include(a => a.Course)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (course == null)
+            if (assignment == null)
             {
                 return NotFound();
             }
 
-            return View(course);
+            return View(assignment);
         }
 
-        // GET: Courses/Create
-        [HttpGet]
+        // GET: Assignments/Create
         public IActionResult Create()
         {
-            ViewData["InstructorId"] = new SelectList(_context.Instructors, "Id", "Name");
+            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Title");
             return View();
         }
 
-        // POST: Courses/Create
+        // POST: Assignments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Description,InstructorId,Credits,MaxEnrollment,StartDate,EndDate")] Course course)
+        public async Task<IActionResult> Create([Bind("CourseId,Title,Description,MaxPoints,DueDate,CreatedDate,Deleted,Id")] Assignment assignment)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(course);
+                _context.Add(assignment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["InstructorId"] = new SelectList(_context.Instructors, "Id", "Id", course.InstructorId);
-            return View(course);
+            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Title", assignment.CourseId);
+            return View(assignment);
         }
 
-        // GET: Courses/Edit/5
+        // GET: Assignments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,23 +77,23 @@ namespace LearningManagementSystem.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Courses.FindAsync(id);
-            if (course == null)
+            var assignment = await _context.Assignments.FindAsync(id);
+            if (assignment == null)
             {
                 return NotFound();
             }
-            ViewData["InstructorId"] = new SelectList(_context.Instructors, "Id", "Id", course.InstructorId);
-            return View(course);
+            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Title", assignment.CourseId);
+            return View(assignment);
         }
 
-        // POST: Courses/Edit/5
+        // POST: Assignments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Title,Description,InstructorId,Credits,MaxEnrollment,StartDate,EndDate,Id,CreatedDate")] Course course)
+        public async Task<IActionResult> Edit(int id, [Bind("CourseId,Title,Description,MaxPoints,DueDate,CreatedDate,Deleted,Id")] Assignment assignment)
         {
-            if (id != course.Id)
+            if (id != assignment.Id)
             {
                 return NotFound();
             }
@@ -103,12 +102,12 @@ namespace LearningManagementSystem.Controllers
             {
                 try
                 {
-                    _context.Update(course);
+                    _context.Update(assignment);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CourseExists(course.Id))
+                    if (!AssignmentExists(assignment.Id))
                     {
                         return NotFound();
                     }
@@ -119,11 +118,11 @@ namespace LearningManagementSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["InstructorId"] = new SelectList(_context.Instructors, "Id", "Id", course.InstructorId);
-            return View(course);
+            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Title", assignment.CourseId);
+            return View(assignment);
         }
 
-        // GET: Courses/Delete/5
+        // GET: Assignments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -131,35 +130,35 @@ namespace LearningManagementSystem.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Courses
-                .Include(c => c.Instructor)
+            var assignment = await _context.Assignments
+                .Include(a => a.Course)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (course == null)
+            if (assignment == null)
             {
                 return NotFound();
             }
 
-            return View(course);
+            return View(assignment);
         }
 
-        // POST: Courses/Delete/5
+        // POST: Assignments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var course = await _context.Courses.FindAsync(id);
-            if (course != null)
+            var assignment = await _context.Assignments.FindAsync(id);
+            if (assignment != null)
             {
-                _context.Courses.Remove(course);
+                _context.Assignments.Remove(assignment);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CourseExists(int id)
+        private bool AssignmentExists(int id)
         {
-            return _context.Courses.Any(e => e.Id == id);
+            return _context.Assignments.Any(e => e.Id == id);
         }
     }
 }

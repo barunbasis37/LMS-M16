@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LearningManagementSystem.Models
@@ -14,6 +15,7 @@ namespace LearningManagementSystem.Models
 
         public int InstructorId { get; set; }
         [ForeignKey("InstructorId")]
+        [ValidateNever]
         public Instructor Instructor { get; set; }
 
         public int Credits { get; set; }
@@ -21,8 +23,9 @@ namespace LearningManagementSystem.Models
 
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-
+        [ValidateNever]
         public ICollection<StudentCourse> StudentCourses { get; set; }
+        [ValidateNever]
         public ICollection<Assignment> Assignments { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace LearningManagementSystem.Models
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+
+namespace LearningManagementSystem.Models
 {
     public enum UserRole
     {
@@ -18,7 +20,9 @@
 
     public class Student : User
     {
+        [ValidateNever]
         public ICollection<StudentCourse> StudentCourses { get; set; }
+        [ValidateNever]
         public ICollection<StudentAssignment> StudentAssignments { get; set; }
     }
 }
