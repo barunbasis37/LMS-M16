@@ -1,7 +1,7 @@
 ﻿using LearningManagementSystem.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace LearningManagementSystem
+namespace LearningManagementSystem.LMSDBContext
 {
     public class ApplicatonDBContext : DbContext
     {
@@ -23,10 +23,28 @@ namespace LearningManagementSystem
                 .HasValue<Student>(UserRole.Student);
 
             modelBuilder.Entity<StudentCourse>()
-                .HasKey(sc => new { sc.StudentId, sc.CourseId });
+        .HasOne(sc => sc.Student)
+        .WithMany(s => s.StudentCourses)
+        .HasForeignKey(sc => sc.StudentId)
+        .OnDelete(DeleteBehavior.NoAction); // or Restrict
+
+            modelBuilder.Entity<StudentCourse>()
+                .HasOne(sc => sc.Course)
+                .WithMany(c => c.StudentCourses)
+                .HasForeignKey(sc => sc.CourseId)
+                .OnDelete(DeleteBehavior.NoAction); // or Restrict
 
             modelBuilder.Entity<StudentAssignment>()
-                .HasKey(sa => new { sa.StudentId, sa.AssignmentId });
+        .HasOne(sa => sa.Student)
+        .WithMany(s => s.StudentAssignments)
+        .HasForeignKey(sa => sa.StudentId)
+        .OnDelete(DeleteBehavior.NoAction); // critical
+
+            modelBuilder.Entity<StudentAssignment>()
+                .HasOne(sa => sa.Assignment)
+                .WithMany(a => a.StudentAssignments)
+                .HasForeignKey(sa => sa.AssignmentId)
+                .OnDelete(DeleteBehavior.NoAction); // critical
 
             modelBuilder.Entity<Course>()
                 .HasMany(c => c.Assignments)

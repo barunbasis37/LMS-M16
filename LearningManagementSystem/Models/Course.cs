@@ -22,8 +22,6 @@ namespace LearningManagementSystem.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public DateTime CreatedDate { get; set; }
-
         public ICollection<StudentCourse> StudentCourses { get; set; }
         public ICollection<Assignment> Assignments { get; set; }
     }

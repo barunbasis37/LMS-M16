@@ -1,4 +1,4 @@
-using LearningManagementSystem;
+using LearningManagementSystem.LMSDBContext;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -16,13 +16,6 @@
     }
 
 
-
-
-    public class Instructor : User
-    {
-        public ICollection<Course> Courses { get; set; }
-    }
-
     public class Student : User
     {
         public ICollection<StudentCourse> StudentCourses { get; set; }

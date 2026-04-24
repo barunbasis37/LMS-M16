@@ -5,8 +5,6 @@ namespace LearningManagementSystem.Models
 {
     public class Assignment : Entities
     {
-        
-
         public int CourseId { get; set; }
         [ForeignKey("CourseId")]
         public Course Course { get; set; }
