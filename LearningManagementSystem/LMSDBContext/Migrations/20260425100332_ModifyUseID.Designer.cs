@@ -4,6 +4,7 @@ using LearningManagementSystem.LMSDBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearningManagementSystem.LMSDBContext.Migrations
 {
     [DbContext(typeof(ApplicatonDBContext))]
-    partial class ApplicatonDBContextModelSnapshot : ModelSnapshot
+    [Migration("20260425100332_ModifyUseID")]
+    partial class ModifyUseID
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

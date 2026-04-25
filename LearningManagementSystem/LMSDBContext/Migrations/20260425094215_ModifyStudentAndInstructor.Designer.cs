@@ -4,6 +4,7 @@ using LearningManagementSystem.LMSDBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearningManagementSystem.LMSDBContext.Migrations
 {
     [DbContext(typeof(ApplicatonDBContext))]
-    partial class ApplicatonDBContextModelSnapshot : ModelSnapshot
+    [Migration("20260425094215_ModifyStudentAndInstructor")]
+    partial class ModifyStudentAndInstructor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,8 +112,11 @@ namespace LearningManagementSystem.LMSDBContext.Migrations
 
             modelBuilder.Entity("LearningManagementSystem.Models.StudentAssignment", b =>
                 {
-                    b.Property<int>("StudentId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AssignmentId")
                         .HasColumnType("int");
@@ -122,12 +128,6 @@ namespace LearningManagementSystem.LMSDBContext.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<DateTime>("ModificationDate")
                         .HasColumnType("datetime2");
 
@@ -137,20 +137,28 @@ namespace LearningManagementSystem.LMSDBContext.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("SubmissionDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("StudentId", "AssignmentId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AssignmentId");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("StudentAssignments");
                 });
 
             modelBuilder.Entity("LearningManagementSystem.Models.StudentCourse", b =>
                 {
-                    b.Property<int>("StudentId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
@@ -164,18 +172,17 @@ namespace LearningManagementSystem.LMSDBContext.Migrations
                     b.Property<decimal?>("Grade")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<DateTime>("ModificationDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("StudentId", "CourseId");
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CourseId");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("StudentCourses");
                 });
@@ -198,6 +205,9 @@ namespace LearningManagementSystem.LMSDBContext.Migrations
                     b.Property<DateTime>("ModificationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -205,13 +215,9 @@ namespace LearningManagementSystem.LMSDBContext.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("User");
 
                     b.HasDiscriminator<int>("Role");
 
@@ -222,6 +228,11 @@ namespace LearningManagementSystem.LMSDBContext.Migrations
                 {
                     b.HasBaseType("LearningManagementSystem.Models.User");
 
+                    b.Property<string>("InstructorId")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.HasDiscriminator().HasValue(1);
 
                     b.HasData(
@@ -230,15 +241,19 @@ namespace LearningManagementSystem.LMSDBContext.Migrations
                             Id = 1,
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "smith@test.com",
-                            ModificationDate = new DateTime(2026, 4, 25, 16, 3, 31, 675, DateTimeKind.Local).AddTicks(6738),
+                            ModificationDate = new DateTime(2026, 4, 25, 15, 42, 14, 356, DateTimeKind.Local).AddTicks(7187),
                             Name = "Dr. Smith",
-                            Role = 1
+                            Role = 1,
+                            InstructorId = "INSBD6DAD3B"
                         });
                 });
 
             modelBuilder.Entity("LearningManagementSystem.Models.Student", b =>
                 {
                     b.HasBaseType("LearningManagementSystem.Models.User");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue(2);
                 });

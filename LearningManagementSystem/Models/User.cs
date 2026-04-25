@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace LearningManagementSystem.Models
 {
@@ -9,20 +10,15 @@ namespace LearningManagementSystem.Models
     }
 
     public abstract class User : Entities
-    {        
+    {
+        [StringLength(50)]
+        public string? UserId { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public UserRole Role { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime? ModifiedDate { get; set; }
+       
     }
 
 
-    public class Student : User
-    {
-        [ValidateNever]
-        public ICollection<StudentCourse> StudentCourses { get; set; }
-        [ValidateNever]
-        public ICollection<StudentAssignment> StudentAssignments { get; set; }
-    }
+    
 }

@@ -101,7 +101,7 @@ namespace LearningManagementSystem.Controllers
                 {
                    
                     
-                    student.ModifiedDate= DateTime.Now;
+                    student.ModificationDate= DateTime.Now;
                     _context.Update(student);
                     await _context.SaveChangesAsync();
                 }

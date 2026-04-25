@@ -51,15 +51,22 @@ namespace LearningManagementSystem.LMSDBContext
                 .WithOne(a => a.Course)
                 .HasForeignKey(a => a.CourseId)
                 .OnDelete(DeleteBehavior.Cascade);
+            // ✅ Composite Keys
+            modelBuilder.Entity<StudentCourse>()
+                .HasKey(sc => new { sc.StudentId, sc.CourseId });
+
+            modelBuilder.Entity<StudentAssignment>()
+                .HasKey(sa => new { sa.StudentId, sa.AssignmentId });
 
             modelBuilder.Entity<Instructor>().HasData(
                 new Instructor
                 {
                     Id = 1,
+                    
                     Name = "Dr. Smith",
                     Email = "smith@test.com",
                     Role = UserRole.Instructor,
-                    CreatedDate = new DateTime(2024, 1, 1)
+                    CreatedDate = new DateTime(2024, 1, 1) // ✅ FIXED
                 }
             );
         }
