@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearningManagementSystem.LMSDBContext.Migrations
 {
     [DbContext(typeof(ApplicatonDBContext))]
-    [Migration("20260425100332_ModifyUseID")]
+    [Migration("20260425102103_ModifyUseID")]
     partial class ModifyUseID
     {
         /// <inheritdoc />
@@ -209,6 +209,7 @@ namespace LearningManagementSystem.LMSDBContext.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -233,9 +234,10 @@ namespace LearningManagementSystem.LMSDBContext.Migrations
                             Id = 1,
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "smith@test.com",
-                            ModificationDate = new DateTime(2026, 4, 25, 16, 3, 31, 675, DateTimeKind.Local).AddTicks(6738),
+                            ModificationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Dr. Smith",
-                            Role = 1
+                            Role = 1,
+                            UserId = "INS001"
                         });
                 });
 

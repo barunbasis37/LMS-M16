@@ -44,6 +44,10 @@ namespace LearningManagementSystem.LMSDBContext.Migrations
                 table: "User");
 
             migrationBuilder.DropColumn(
+                name: "InstructorId",
+                table: "User");
+
+            migrationBuilder.DropColumn(
                 name: "ModifiedDate",
                 table: "User");
 
@@ -55,10 +59,13 @@ namespace LearningManagementSystem.LMSDBContext.Migrations
                 name: "User",
                 newName: "Users");
 
-            migrationBuilder.RenameColumn(
-                name: "InstructorId",
+            migrationBuilder.AddColumn<string>(
+                name: "UserId",
                 table: "Users",
-                newName: "UserId");
+                type: "nvarchar(50)",
+                maxLength: 50,
+                nullable: false,
+                defaultValue: "");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_StudentCourses",
@@ -80,7 +87,7 @@ namespace LearningManagementSystem.LMSDBContext.Migrations
                 keyColumn: "Id",
                 keyValue: 1,
                 columns: new[] { "ModificationDate", "UserId" },
-                values: new object[] { new DateTime(2026, 4, 25, 16, 3, 31, 675, DateTimeKind.Local).AddTicks(6738), null });
+                values: new object[] { new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "INS001" });
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Courses_Users_InstructorId",
@@ -132,14 +139,20 @@ namespace LearningManagementSystem.LMSDBContext.Migrations
                 name: "PK_Users",
                 table: "Users");
 
+            migrationBuilder.DropColumn(
+                name: "UserId",
+                table: "Users");
+
             migrationBuilder.RenameTable(
                 name: "Users",
                 newName: "User");
 
-            migrationBuilder.RenameColumn(
-                name: "UserId",
+            migrationBuilder.AddColumn<string>(
+                name: "InstructorId",
                 table: "User",
-                newName: "InstructorId");
+                type: "nvarchar(50)",
+                maxLength: 50,
+                nullable: true);
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "ModifiedDate",

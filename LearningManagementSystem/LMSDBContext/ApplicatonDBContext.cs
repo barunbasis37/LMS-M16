@@ -62,11 +62,12 @@ namespace LearningManagementSystem.LMSDBContext
                 new Instructor
                 {
                     Id = 1,
-                    
+                    UserId = "INS001",
+                    CreatedDate = new DateTime(2024, 1, 1),
                     Name = "Dr. Smith",
                     Email = "smith@test.com",
                     Role = UserRole.Instructor,
-                    CreatedDate = new DateTime(2024, 1, 1) // ✅ FIXED
+
                 }
             );
         }
